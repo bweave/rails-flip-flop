@@ -1,6 +1,6 @@
 import * as fs from "fs"
 import * as path from "path"
-import AppFileType from "./app-file-type"
+import FileType from "./file-type"
 
 export default class FlipFlop {
   private fileName: string
@@ -31,8 +31,19 @@ export default class FlipFlop {
     }
   }
 
+  private flopToTestPath() {
+    switch (this.getFileType()) {
+      case "view":
+        return this.viewTestPath()
+      case "lib":
+        return this.libTestPath()
+      default:
+        return this.appTestPath()
+    }
+  }
+
   private getFileType() {
-    return new AppFileType(this.fileName).call()
+    return new FileType(this.fileName).call()
   }
 
   private viewFilePath() {
@@ -53,7 +64,23 @@ export default class FlipFlop {
       .replace(`_${this.specType}`, "")
   }
 
-  private flopToTestPath() {
-    return "TODO"
+  private viewTestPath() {
+    return this.fileName
+      .replace('/app/', `/${this.specType}/`)
+      .replace('.haml', `.haml_${this.specType}.rb`)
+      .replace('.erb', `.erb_${this.specType}.rb`)
+      .replace('.slim', `.slim_${this.specType}.rb`)
+  }
+
+  private libTestPath() {
+    return this.fileName
+      .replace("/lib", `/${this.specType}/lib`)
+      .replace(".rb", `_${this.specType}.rb`)
+  }
+
+  private appTestPath() {
+    return this.fileName
+      .replace('/app', `/${this.specType}`)
+      .replace(".rb", `_${this.specType}.rb`)
   }
 }
