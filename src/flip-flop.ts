@@ -12,11 +12,11 @@ export default class FlipFlop {
   }
 
   getRelatedFilePath() {
-    if (this.isTestFile()) return this.flipToCodePath()
+    if (this.isTest()) return this.flipToCodePath()
     return this.flopToTestPath()
   }
 
-  private isTestFile() {
+  private isTest() {
     return this.fileName.includes("_test.rb") || this.fileName.includes("_spec.rb")
   }
 
@@ -52,18 +52,6 @@ export default class FlipFlop {
       .replace(`_${this.specType}.rb`, "")
   }
 
-  private libFilePath() {
-    return this.fileName
-      .replace(`/${this.specType}/lib`, "/lib")
-      .replace(`_${this.specType}`, "")
-  }
-
-  private appFilePath() {
-    return this.fileName
-      .replace(`/${this.specType}`, "/app")
-      .replace(`_${this.specType}`, "")
-  }
-
   private viewTestPath() {
     return this.fileName
       .replace('/app/', `/${this.specType}/`)
@@ -72,10 +60,22 @@ export default class FlipFlop {
       .replace('.slim', `.slim_${this.specType}.rb`)
   }
 
+  private libFilePath() {
+    return this.fileName
+      .replace(`/${this.specType}/lib`, "/lib")
+      .replace(`_${this.specType}`, "")
+  }
+
   private libTestPath() {
     return this.fileName
       .replace("/lib", `/${this.specType}/lib`)
       .replace(".rb", `_${this.specType}.rb`)
+  }
+
+  private appFilePath() {
+    return this.fileName
+      .replace(`/${this.specType}`, "/app")
+      .replace(`_${this.specType}`, "")
   }
 
   private appTestPath() {
