@@ -1,3 +1,5 @@
+"use strict"
+
 export default class FileType {
   private fileName: string
   private viewRegex: RegExp = /((erb$|haml$|slim$)|(.erb|.haml|.slim)(_spec|_test)?(\.rb)$)/
