@@ -1,11 +1,61 @@
+import * as fs from "fs"
 import * as assert from "assert"
+import * as sinon from "sinon"
+import * as utils from "../utils"
+import Bootstrap from "../bootstrap"
 import FlipFlop from "../flip-flop"
 
-// import * as vscode from "vscode";
-// import * as myExtension from "../extension";
+const sandbox = sinon.createSandbox()
 
 // Defines a Mocha test suite to group tests of similar kind together
 describe("Extension", function() {
+  describe("Bootstrap", function() {
+    beforeEach(function() {
+      this.fileName = "/path/to/project/app/something/foo.rb"
+      this.relatedFilePath = "/path/to/project/spec/something/foo_spec.rb"
+      this.editor = { document: { fileName: this.fileName } }
+    })
+
+    afterEach(function () {
+      sandbox.restore()
+    })
+
+    function assumeSpecDirExists() {
+      const dirExists = sandbox.stub(utils, "dirExists")
+      dirExists.withArgs("spec").returns(true)
+    }
+
+    it("opens the related file when it exists", function() {
+      assumeSpecDirExists()
+      const existsSync = sandbox.stub(fs, "existsSync").withArgs(this.relatedFilePath).returns(true)
+      const openFile = sandbox.stub(utils, "openFile")
+      const bootstrap = new Bootstrap(this.editor)
+      bootstrap.call()
+
+      assert(openFile.calledWith(this.relatedFilePath))
+    })
+
+    it("prompts to create the test file when it doesn't exist", function() {
+      assumeSpecDirExists()
+      const expectedMessage = `Create ${this.relatedFilePath}?`
+      const prompt = sandbox.stub(utils, "prompt")
+      const bootstrap = new Bootstrap(this.editor)
+
+      bootstrap.call()
+
+      assert(prompt.calledWith(expectedMessage))
+    })
+
+    it("prompts to create a test dir if none exists", function() {
+      const expectedMessage = `No testing directory exists. Which would you like to create?`
+      const prompt = sandbox.stub(utils, "prompt")
+      const bootstrap = new Bootstrap(this.editor)
+
+      bootstrap.call()
+
+      assert(prompt.calledWith(expectedMessage))
+    })
+  }) // describe Bootstrap
 
   describe("FlipFlop", function() {
     describe("RSpec", function() {

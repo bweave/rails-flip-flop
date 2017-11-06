@@ -1,36 +1,39 @@
 {
-    "name": "rails-flip-flop",
-    "displayName": "Rails Flip-Flop",
-    "description": "Flip from application code to the related test/spec, and vice versa.",
-    "version": "0.0.1",
-    "publisher": "bweave",
-    "engines": {
-        "vscode": "^1.17.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.railsFlipFlop"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [{
-            "command": "extension.railsFlipFlop",
-            "title": "Rails Flip-Flop"
-        }]
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.5.3",
-        "vscode": "^1.1.5",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
-    }
+  "name": "rails-flip-flop",
+  "displayName": "Rails Flip-Flop",
+  "description": "Flip from application code to the related test/spec, and vice versa.",
+  "version": "0.0.1",
+  "publisher": "bweave",
+  "engines": {
+    "vscode": "^1.17.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.railsFlipFlop"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.railsFlipFlop",
+        "title": "Rails Flip-Flop"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^7.0.43",
+    "sinon": "^4.1.1",
+    "typescript": "^2.5.3",
+    "vscode": "^1.1.5"
+  }
 }

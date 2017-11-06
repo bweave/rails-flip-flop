@@ -3,7 +3,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import * as vscode from "vscode"
-import { dirExists, prompt, openFile } from "./utils"
+import * as utils from "./utils"
 import FlipFlop from "./flip-flop"
 
 export default class Bootstrap {
@@ -18,15 +18,15 @@ export default class Bootstrap {
 
   call() {
     if (this.relatedPathExists()) {
-      openFile(this.relatedFilePath)
+      utils.openFile(this.relatedFilePath)
     } else {
       this.createTest()
     }
   }
 
   private getSpecType() {
-    if (dirExists("spec")) return "spec"
-    if (dirExists("test")) return "test"
+    if (utils.dirExists("spec")) return "spec"
+    if (utils.dirExists("test")) return "test"
     this.createTestDir()
   }
 
@@ -37,17 +37,17 @@ export default class Bootstrap {
   private createTest() {
     const msg = `Create ${vscode.workspace.asRelativePath(this.relatedFilePath)}?`
 
-    prompt(msg, ["Yes", "No"], (answer) => {
+    utils.prompt(msg, ["Yes", "No"], (answer) => {
       if (answer === "No") return
       fs.mkdirSync(path.dirname(this.relatedFilePath))
       fs.closeSync(fs.openSync(this.relatedFilePath, 'w'))
-      openFile(this.relatedFilePath)
+      utils.openFile(this.relatedFilePath)
     })
   }
 
   private createTestDir() {
     const msg = "No testing directory exists. Which would you like to create?"
-    prompt(msg, ["spec", "test"], (answer) => {
+    utils.prompt(msg, ["spec", "test"], (answer) => {
       fs.mkdirSync(`${vscode.workspace.rootPath}/${answer}`)
     })
   }
