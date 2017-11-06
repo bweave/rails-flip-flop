@@ -1,5 +1,7 @@
 # Rails Flip-Flop
 
+[View on Github](https://github.com/bweave/rails-flip-flop)
+
 Flip-flop from code to the related test, and vice-versa in [Visual Studio Code](https://code.visualstudio.com/)
 
 
@@ -16,6 +18,9 @@ None, so far! By all means tho, lemme know if you find an issue!
 
 ## Release Notes
 
+### 0.0.2
+
+Fix those links to Github
 ### 0.0.1
 
 Initial release

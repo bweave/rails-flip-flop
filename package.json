@@ -2,7 +2,7 @@
   "name": "rails-flip-flop",
   "displayName": "Rails Flip-Flop",
   "description": "Flip from application code to the related test/spec, and vice versa.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "bweave",
   "engines": {
     "vscode": "^1.17.0"
