@@ -2,8 +2,13 @@
   "name": "rails-flip-flop",
   "displayName": "Rails Flip-Flop",
   "description": "Flip from application code to the related test/spec, and vice versa.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "bweave",
+  "icon": "images/flip-flop.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bweave/rails-flip-flop.git"
+  },
   "engines": {
     "vscode": "^1.17.0"
   },

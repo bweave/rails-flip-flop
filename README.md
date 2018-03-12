@@ -28,6 +28,10 @@ None, so far! By all means tho, lemme know if you find an issue!
 
 ## Release Notes
 
+### 0.0.4
+
+Just some housekeeping. Adds a repo and icon to `package.json`.
+
 ### 0.0.3
 
 - Add some tests
@@ -44,3 +48,4 @@ Initial release
 ----
 
 Inspired by [tpope/vim-rails](https://github.com/tpope/vim-rails) & [rails-go-to-spec-vscode](https://github.com/sporto/rails-go-to-spec-vscode).
+Icon created by hunotika from Noun Project
