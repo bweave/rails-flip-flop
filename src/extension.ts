@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
     if (!editor) return
 
     const bootstrap = new Bootstrap(editor)
-    bootstrap.call()
+    // bootstrap.call()
   })
 
   context.subscriptions.push(disposable)

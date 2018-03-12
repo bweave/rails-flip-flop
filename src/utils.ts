@@ -2,7 +2,7 @@
 
 import * as fs from "fs"
 import * as path from "path"
-import { window, workspace } from "vscode"
+import { window, workspace, ViewColumn } from "vscode"
 
 export function dirExists(dir) {
   const rootPath = workspace.rootPath
@@ -21,13 +21,15 @@ export function dirExists(dir) {
 export function openFile(fileName) {
   workspace
     .openTextDocument(fileName)
-    .then(window.showTextDocument)
+    .then((TextDocument) => {
+      window.showTextDocument(TextDocument, ViewColumn.Two, true)
+    })
 }
 
 export function prompt(msg, choices, cb) {
   const options = { placeHolder: msg }
 
-  window
+  return window
     .showQuickPick(choices, options)
     .then((answer) => cb(answer))
 }

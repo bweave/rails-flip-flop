@@ -11,23 +11,31 @@ export default class Bootstrap {
 
   constructor(editor) {
     const fileName = editor.document.fileName
-    const specType = this.getSpecType()
-    const flipFlop = new FlipFlop(fileName, specType)
-    this.relatedFilePath = flipFlop.getRelatedFilePath()
+    this.getSpecType().then(specType => {
+      const flipFlop = new FlipFlop(fileName, specType)
+      this.relatedFilePath = flipFlop.getRelatedFilePath()
+      if (this.relatedPathExists()) {
+        utils.openFile(this.relatedFilePath)
+      } else {
+        this.createTest()
+      }
+    })
   }
 
   call() {
     if (this.relatedPathExists()) {
-      utils.openFile(this.relatedFilePath)
+      vscode.workspace.openTextDocument(this.relatedFilePath).then(function(TextDocument){
+        vscode.window.showTextDocument(TextDocument, vscode.ViewColumn.Two, true)
+      })
     } else {
       this.createTest()
     }
   }
 
   private getSpecType() {
-    if (utils.dirExists("spec")) return "spec"
-    if (utils.dirExists("test")) return "test"
-    this.createTestDir()
+    if (utils.dirExists("spec")) return Promise.resolve("spec")
+    if (utils.dirExists("test")) return Promise.resolve("test")
+    return this.createTestDir().then(specType => specType)
   }
 
   private relatedPathExists() {
@@ -35,20 +43,22 @@ export default class Bootstrap {
   }
 
   private createTest() {
+    const { relatedFilePath } = this
     const msg = `Create ${vscode.workspace.asRelativePath(this.relatedFilePath)}?`
 
     utils.prompt(msg, ["Yes", "No"], (answer) => {
       if (answer === "No") return
-      fs.mkdirSync(path.dirname(this.relatedFilePath))
-      fs.closeSync(fs.openSync(this.relatedFilePath, 'w'))
-      utils.openFile(this.relatedFilePath)
+      fs.mkdirSync(path.dirname(relatedFilePath))
+      fs.closeSync(fs.openSync(relatedFilePath, 'w'))
+      utils.openFile(relatedFilePath)
     })
   }
 
   private createTestDir() {
     const msg = "No testing directory exists. Which would you like to create?"
-    utils.prompt(msg, ["spec", "test"], (answer) => {
+    return utils.prompt(msg, ["spec", "test"], (answer) => {
       fs.mkdirSync(`${vscode.workspace.rootPath}/${answer}`)
+      return answer
     })
   }
 }
